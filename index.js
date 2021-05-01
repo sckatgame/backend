@@ -1,6 +1,10 @@
 require('dotenv').config();
-const app = require('express')();
+const express = require('express');
+const routes = require('./src/routes');
 
-app.get('/',(req,res) => res.send({"Ola":"Mundo"}))
+const app = express();
+
+app.use(express.json());
+app.use(routes)
 
 app.listen(process.env.PORT)
