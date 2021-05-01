@@ -1,6 +1,8 @@
 require('dotenv').config();
 const genereteId = require('../utils/genereteId');
+const genereteCode = require('../utils/genereteCode');
 const connection = require('../database/connection');
+const SendMail = require('../services/SendMail');
 
 module.exports = {
     async index(req,res){
@@ -9,22 +11,56 @@ module.exports = {
         
         if(email == process.env.SMTP_USER && password == process.env.SMTP_PASS) return res.json(users)
 
-        return res.status(400).send({acess:'denied'})
+        return res.status(400).json({acess:'denied'})
     },
     async create(req,res){
         const {name,email,password} = req.body;
         const authorization = genereteId();
+        const code = genereteCode()
         const scorre = 1000;
+        
+        const validateOptions = await connection('user')
+        .where({email})
+        .select('code')
+        .first();
+
+        if(validateOptions){
+            if(validateOptions.code == 'validate'){
+                return res.status(400).json({error:'Este email já existe'});
+            }
+            return res.status(200).json();
+        }
 
         await connection('user').insert({
             name,
             email,
             password,
+            code,
             scorre,
             authorization
         });
 
-        return res.json({authorization});
+        await SendMail(email,code);
+
+        return res.json({warn:'Validação pendente'});
+    },
+
+    async validateEmail(req,res){
+        const {code,email} = req.body;
+
+        const origem_code = await connection('user')
+        .where({email})
+        .select('code','authorization')
+        .first();
+
+        if(code == origem_code.code){
+            await connection('user').where({email}).update({code:'validate'})
+
+            return res.json({'authorization':[origem_code.authorization]})
+        }
+
+        res.status(400).json({error:'Código errado'});
+
     },
 
     async update(req,res){

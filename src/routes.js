@@ -5,6 +5,7 @@ const SessionController = require('./controllers/SessionController');
 
 routes.get('/user',UserController.index);
 routes.post('/user',UserController.create);
+routes.post('/validate',UserController.validateEmail);
 routes.put('/user',UserController.update);
 
 routes.get('/profile',ProfileController.index);
