@@ -40,7 +40,12 @@ module.exports = {
             authorization
         });
 
-        await SendMail(email,code);
+        await SendMail(
+            email,
+            code,
+            'Seu código de validação',
+            'Código de validação'
+        );
 
         return res.json({warn:'Validação pendente'});
     },
@@ -60,6 +65,29 @@ module.exports = {
         }
 
         res.status(400).json({error:'Código errado'});
+
+    },
+
+    async validatePassword(req,res){
+        const {email} = req.body;
+
+        const user = await connection('user')
+        .where({email})
+        .select('password')
+        .first();
+
+        if(!user){
+            return res.status(400).json({err:'Usuário não existe'})
+        }
+
+        await SendMail(
+            email,
+            user.password,
+            'Sua senha',
+            'Recuperção de senha'
+        );
+
+        return res.json({sucess:'Enviamos sua senha por email'})
 
     },
 
