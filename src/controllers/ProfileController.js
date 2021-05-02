@@ -5,6 +5,11 @@ module.exports = {
         const userId = req.headers.authorization;
         const dataUser = await connection('user').where('authorization',userId).select('*');
 
-        return res.json(dataUser);
+        const topfive = await connection('user')
+        .select('name','scorre')
+        .orderBy('scorre','desc')
+        .limit(5)
+
+        return res.json({dataUser,topfive});
     }
 }
