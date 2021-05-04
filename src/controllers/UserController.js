@@ -24,12 +24,23 @@ module.exports = {
         .select('code')
         .first();
 
+        const validateName = await connection('user')
+        .where({name})
+        .select('name')
+        .first();
+
         if(validateOptions){
             if(validateOptions.code == 'validate'){
                 return res.status(400).json({error:'Este email já existe'});
             }
-            return res.status(200).json();
+
+            return res.status(400).json({warn:'Validação pendente'});
         }
+
+        if(validateName){
+            return res.status(400).json({err:'Este nome de usuário já está em uso'})
+        }
+
 
         await connection('user').insert({
             name,
