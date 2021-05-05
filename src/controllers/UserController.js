@@ -69,13 +69,21 @@ module.exports = {
         .select('code','authorization')
         .first();
 
+        if(!origem_code){
+            return res.status(400).json({error:'Esta conta não existe'})
+        }
+
+        if(origem_code.code == 'validate'){
+            return res.status(400).json({error:'Esse email já foi validado'})
+        }
+
         if(code == origem_code.code){
             await connection('user').where({email}).update({code:'validate'})
 
             return res.json({'authorization':[origem_code.authorization]})
         }
 
-        res.status(400).json({error:'Código errado'});
+        return res.status(400).json({error:'Código errado'});
 
     },
 
