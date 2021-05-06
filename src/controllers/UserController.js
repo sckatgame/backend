@@ -11,7 +11,7 @@ module.exports = {
         
         if(email == process.env.SMTP_USER && password == process.env.SMTP_PASS) return res.json(users)
 
-        return res.status(400).json({acess:'denied'})
+        return res.status(400).json({error:'Acesso Negado'})
     },
     async create(req,res){
         const {name,email,password} = req.body;
@@ -30,15 +30,11 @@ module.exports = {
         .first();
 
         if(validateOptions){
-            if(validateOptions.code == 'validate'){
-                return res.status(400).json({error:'Este email já existe'});
-            }
-
-            return res.status(400).json({warn:'Validação pendente'});
+            return res.status(400).json({error:'Este email já existe'});
         }
 
         if(validateName){
-            return res.status(400).json({err:'Este nome de usuário já está em uso'})
+            return res.status(400).json({error:'Este nome de usuário já está em uso'})
         }
 
 
@@ -58,7 +54,7 @@ module.exports = {
             'Código de validação'
         );
 
-        return res.json({warn:'Validação pendente'});
+        return res.json({sucess:'Validação pendente'});
     },
 
     async validateEmail(req,res){
@@ -96,7 +92,7 @@ module.exports = {
         .first();
 
         if(!user){
-            return res.status(400).json({err:'Usuário não existe'})
+            return res.status(400).json({error:'Usuário não existe'})
         }
 
         await SendMail(
@@ -118,7 +114,7 @@ module.exports = {
             password
         })
 
-        if(!userUpdate) return res.status(400).json('Falha ao atulizar os dados')
+        if(!userUpdate) return res.status(400).json({error:'Falha ao atulizar os dados'})
 
         return res.status(200).json()
 
