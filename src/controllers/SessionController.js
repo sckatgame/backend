@@ -6,13 +6,20 @@ module.exports = {
 
         const user = await connection('user')
         .where({email,password})
-        .select('authorization')
+        .select('authorization','code')
         .first();
 
         if(!user){
             return res.status(400).json({error:"Usuário não encontrado"})
         }
 
-        return res.json(user)
+        if(user.code != 'validate'){
+            await connection('user').where('email',email).delete();
+            return res.status(400).json({error:"Usuário não encontrado"})   
+        }
+
+        const {authorization} = user;
+
+        return res.json({authorization})
     }
 }
