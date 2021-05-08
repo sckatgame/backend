@@ -5,7 +5,7 @@ const ProfileController = require('./controllers/ProfileController');
 const SessionController = require('./controllers/SessionController');
 
 routes.post(
-    '/user',
+    '/users',
     celebrate({
         [Segments.BODY]: Joi.object().keys({
             email:Joi.string().required().email(),
@@ -46,18 +46,6 @@ routes.post(
         })
     }),
     UserController.validatePassword
-);
-
-routes.put(
-    '/user',
-    celebrate({
-        [Segments.BODY]:Joi.object().keys({
-            name:Joi.string().required(),
-            password:Joi.string().required(),
-            authorization:Joi.string().required()
-        })
-    }),
-    UserController.update
 );
 
 routes.get(

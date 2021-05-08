@@ -115,18 +115,4 @@ module.exports = {
         return res.json({sucess:'Enviamos sua senha por email'})
 
     },
-
-    async update(req,res){
-        const {name,password,authorization} = req.body;
-
-        const userUpdate = await connection('user').where({authorization}).update({
-            name,
-            password
-        })
-
-        if(!userUpdate) return res.status(400).json({error:'Falha ao atulizar os dados'})
-
-        return res.status(200).json()
-
-    }
 }
