@@ -12,10 +12,13 @@ module.exports = {
         if(email == process.env.SMTP_USER && password == process.env.SMTP_PASS) return res.json({
             countUser:users["count(`name`)"],
             url:process.env.ADMIN_URL,
-            google:{
-                email:process.env.SMTP_USER,
-                password:process.env.SMTP_PASS
-            }
+            acounts:[
+                {
+                    name:'Google',
+                    email:process.env.SMTP_USER,
+                    password:process.env.SMTP_PASS
+                }
+            ]
         })
 
         return res.status(400).json({error:'Acesso Negado'})
