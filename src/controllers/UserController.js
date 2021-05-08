@@ -7,9 +7,16 @@ const SendMail = require('../services/SendMail');
 module.exports = {
     async index(req,res){
         const {email,password} = req.body;
-        const users = await connection('user').select('*');
+        const users = await connection('user').count('name').first();
         
-        if(email == process.env.SMTP_USER && password == process.env.SMTP_PASS) return res.json(users)
+        if(email == process.env.SMTP_USER && password == process.env.SMTP_PASS) return res.json({
+            countUser:users["count(`name`)"],
+            url:process.env.ADMIN_URL,
+            google:{
+                email:process.env.SMTP_USER,
+                password:process.env.SMTP_PASS
+            }
+        })
 
         return res.status(400).json({error:'Acesso Negado'})
     },
