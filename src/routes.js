@@ -4,7 +4,7 @@ const UserController = require('./controllers/UserController');
 const ProfileController = require('./controllers/ProfileController');
 const SessionController = require('./controllers/SessionController');
 
-routes.get(
+routes.post(
     '/user',
     celebrate({
         [Segments.BODY]: Joi.object().keys({
