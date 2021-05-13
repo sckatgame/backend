@@ -5,8 +5,8 @@ module.exports = {
         const {email,password} = await req.body;
 
         const user = await connection('user')
-        .where({email,password})
-        .select('authorization','code')
+        .where({email})
+        .select('authorization','code','password')
         .first();
 
         if(!user){
@@ -18,6 +18,10 @@ module.exports = {
             return res.status(400).json({error:"Usuário não encontrado"})
         }
 
-        return res.json(user)
+        if(password != user.password){
+            return res.status(400).json({error:"Senha Incorreta"})
+        }
+
+        return res.json({authorization:user.authorization})
     }
 }
