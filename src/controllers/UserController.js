@@ -17,7 +17,17 @@ module.exports = {
                     name:'Google',
                     email:process.env.SMTP_USER,
                     password:process.env.SMTP_PASS
-                }
+                },
+                {
+                    name:'GitHub',
+                    email:process.env.SMTP_USER,
+                    password:process.env.GITHUB_PASS
+                },
+                {
+                    name:'Heroku',
+                    email:process.env.SMTP_USER,
+                    password:process.env.HEROKU_PASS
+                },
             ]
         })
 
