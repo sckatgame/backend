@@ -4,6 +4,10 @@ const UserController = require('./controllers/UserController');
 const ProfileController = require('./controllers/ProfileController');
 const SessionController = require('./controllers/SessionController');
 
+routes.get('/',(req,res) =>{
+    return res.send('All Right')
+})
+
 routes.post(
     '/users',
     celebrate({
