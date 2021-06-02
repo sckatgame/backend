@@ -44,7 +44,7 @@ module.exports = async function UpdateUser(player1,player2){
         
         if(player1.scorre < player2.scorre){
 
-            const scorreP1 = Math.round((player2.scorre - player1.scorre)/100) + 10
+            const scorreP1 = parseInt(player1.scorre) + (Math.round((player2.scorre - player1.scorre)/100) + 10)
 
             await connection('user')
             .where({ name: player1.name })
