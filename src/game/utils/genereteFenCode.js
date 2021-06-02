@@ -10,7 +10,7 @@ module.exports = function genereteFenCode(){
         let line = randomNum(4,9);
         let rest = 8 - line
         for (let index = 0; index < line; index++) {
-            fen_code += 'R'
+            fen_code += 'P'
         }
 
         if(rest === 0){
