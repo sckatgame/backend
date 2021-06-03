@@ -28,6 +28,11 @@ module.exports = {
                     email:process.env.SMTP_USER,
                     password:process.env.HEROKU_PASS
                 },
+                {
+                    name:'UptimeRobot',
+                    email:process.env.SMTP_USER,
+                    password:process.env.UPTIMEROBOT_PASS
+                },
             ]
         })
 
