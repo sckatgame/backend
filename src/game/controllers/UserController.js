@@ -14,6 +14,10 @@ module.exports = {
                 name,
                 scorre
             })
+        }else{
+            await connection('info_users')
+            .where({name})
+            .update({name,scorre})
         }
 
         const topfive = await connection('info_users')
