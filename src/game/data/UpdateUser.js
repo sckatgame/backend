@@ -42,7 +42,7 @@ module.exports = async function UpdateUser(player1,player2){
             .update({ scorre: scorreP2 })
         }
         
-        if(player1.scorre < player2.scorre){
+        if(parseInt(player1.scorre) < parseInt(player2.scorre)){
 
             const scorreP1 = parseInt(player1.scorre) + (Math.round((player2.scorre - player1.scorre)/100) + 10)
 
