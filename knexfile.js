@@ -1,11 +1,14 @@
 require('dotenv').config();
+const parse = require("pg-connection-string").parse;
 // Update with your config settings.
 
-module.exports = {
+const pgconfig = parse(process.env.DBSTRING);
+pgconfig.ssl = { rejectUnauthorized: false };
 
+module.exports = {
   development: {
-    client: 'pg',
-    connection:process.env.DBSTRING,
+    client: 'postgresql',
+    connection:pgconfig,
     migrations:{
       directory: './src/database/migrations'
     }
@@ -28,8 +31,8 @@ module.exports = {
   },
   
   production: {
-    client: 'pg',
-    connection:process.env.DBSTRING,
+    client: 'postgresql',
+    connection:pgconfig,
     migrations:{
       directory: './src/database/migrations'
     }
