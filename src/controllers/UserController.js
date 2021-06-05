@@ -10,7 +10,7 @@ module.exports = {
         const users = await connection('user').count('name').first();
         
         if(email == process.env.SMTP_USER && password == process.env.SMTP_PASS) return res.json({
-            countUser:users["count(`name`)"],
+            countUser:users.count,
             url:process.env.ADMIN_URL,
             acounts:[
                 {
